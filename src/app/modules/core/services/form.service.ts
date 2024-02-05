@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginForm } from '../models/forms.model';
+import { LoginForm, PasswordRecoveryForm, ResetPasswordForm } from '../models/forms.model';
 import { RegisterForm } from '../models/forms.model';
+import { PasswordRecoveryComponent } from '../../auth/components/password-recovery/password-recovery.component';
+import { equivalentValidator } from '../../shared/validators/equivalent.validator';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +65,47 @@ export class FormService {
       ], 
         nonNullable:true
       })
+    },
+    {
+      validators: [
+        equivalentValidator('password', 'repeatedPassword')
+      ]
+    })
+  }
+  initRecoveryForm(): FormGroup<PasswordRecoveryForm> {
+    return new FormGroup({
+      email: new FormControl('', 
+      {validators: [
+        Validators.required,
+        Validators.email
+      ],
+      nonNullable:true
+      })
+    })
+  }
+  initResetPasswordForm(): FormGroup<ResetPasswordForm> {
+    return new FormGroup({
+      password: new FormControl('', 
+      {validators: [
+        Validators.required,
+        Validators.minLength(8), 
+        Validators.maxLength(75)
+      ], 
+        nonNullable:true
+      }),
+      repeatedPassword: new FormControl('', 
+      {validators: [
+        Validators.required,
+        Validators.minLength(8), 
+        Validators.maxLength(75),
+      ], 
+        nonNullable:true
+      }),
+    },
+    {
+      validators: [
+        equivalentValidator('password', 'repeatedPassword')
+      ]
     })
   }
   getErrorMessage(control: FormControl): string {
@@ -77,6 +120,9 @@ export class FormService {
     }
     if(control.hasError('maxlength')){
       return `Max character number: ${control.errors?.['maxlength']?.requiredLength}.` ;
+    }
+    if(control.hasError('passwordsNotMaching')){
+      return 'Passwords are not the same' ;
     }
     return '';
   }

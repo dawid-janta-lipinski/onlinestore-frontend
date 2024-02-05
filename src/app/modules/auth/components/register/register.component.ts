@@ -21,5 +21,4 @@ export class RegisterComponent {
   getErrorMessage(control: FormControl){
     return this.formService.getErrorMessage(control);
   }
-  
 }
