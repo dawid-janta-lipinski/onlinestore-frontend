@@ -63,4 +63,11 @@
       (click)="notMatchingPasswordsError = null"
     ></button>
   </div>
+  <div
+    class="alert alert-warning alert-dismissible fade show mt-2"
+    role="alert"
+    *ngIf="errorMessage$ | async as error"
+  >
+    {{ error }}
+  </div>
 </form>

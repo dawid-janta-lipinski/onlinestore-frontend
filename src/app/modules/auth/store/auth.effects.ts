@@ -35,7 +35,10 @@ export class AuthEffects {
         return this.authSerivce.register(action.registerData).pipe(
           map((user) => {
             this.router.navigate(['/login']);
-            this.notifierService.notify('success', 'Succesfully registered!');
+            this.notifierService.notify(
+              'success',
+              'Succesfully registered! Check your email and activate your account',
+            );
             return AuthActions.registerSuccess();
           }),
           catchError((err) =>

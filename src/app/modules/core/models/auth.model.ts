@@ -21,6 +21,7 @@ export interface RegisterData {
   login: string;
   email: string;
   password: string;
+  role: string;
 }
 export interface RecoverPasswordData {
   email: string;
