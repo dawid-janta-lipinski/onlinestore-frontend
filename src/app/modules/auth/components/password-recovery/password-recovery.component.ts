@@ -6,20 +6,19 @@ import { FormService } from 'src/app/modules/core/services/form.service';
 @Component({
   selector: 'app-password-recovery',
   templateUrl: './password-recovery.component.html',
-  styleUrls: ['./password-recovery.component.scss']
+  styleUrls: ['./password-recovery.component.scss'],
 })
 export class PasswordRecoveryComponent {
-
-  passwordRecoveryForm: FormGroup<PasswordRecoveryForm> = this.formService.initRecoveryForm();
+  passwordRecoveryForm: FormGroup<PasswordRecoveryForm> =
+    this.formService.initRecoveryForm();
 
   get controls(): PasswordRecoveryForm {
     return this.passwordRecoveryForm.controls;
   }
 
-  constructor(private formService: FormService){}
+  constructor(private formService: FormService) {}
 
-  getErrorMessage(control: FormControl): string{
+  getErrorMessage(control: FormControl): string {
     return this.formService.getErrorMessage(control);
   }
-
 }

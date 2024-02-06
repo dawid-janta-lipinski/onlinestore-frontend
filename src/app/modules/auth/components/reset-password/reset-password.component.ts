@@ -7,11 +7,11 @@ import { FormService } from 'src/app/modules/core/services/form.service';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent {
-
-  resetPasswordForm: FormGroup<ResetPasswordForm> = this.formService.initResetPasswordForm();
+  resetPasswordForm: FormGroup<ResetPasswordForm> =
+    this.formService.initResetPasswordForm();
 
   uid!: string | null;
 
@@ -19,17 +19,20 @@ export class ResetPasswordComponent {
     return this.resetPasswordForm.controls;
   }
 
-  constructor(private formService: FormService, private route: ActivatedRoute){}
+  constructor(
+    private formService: FormService,
+    private route: ActivatedRoute,
+  ) {}
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.route.paramMap.subscribe({
       next: (paramMap) => {
-        this.uid = (paramMap.get('uid'))
-      }
+        this.uid = paramMap.get('uid');
+      },
     });
   }
 
-  getErrorMessage(control: FormControl){
+  getErrorMessage(control: FormControl) {
     return this.formService.getErrorMessage(control);
   }
 }

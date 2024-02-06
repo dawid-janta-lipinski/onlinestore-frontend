@@ -8,7 +8,6 @@ import { AccountActivationComponent } from './components/account-activation/acco
 import { PasswordRecoveryComponent } from './components/password-recovery/password-recovery.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
-
 @NgModule({
   declarations: [
     LoginComponent,
@@ -17,9 +16,6 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     PasswordRecoveryComponent,
     ResetPasswordComponent,
   ],
-  imports: [
-    AuthRoutingModule,
-    SharedModule
-  ]
+  imports: [AuthRoutingModule, SharedModule],
 })
-export class AuthModule { }
+export class AuthModule {}

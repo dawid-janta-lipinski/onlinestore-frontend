@@ -7,15 +7,15 @@ import { PasswordRecoveryComponent } from './components/password-recovery/passwo
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'activate/:uid', component: AccountActivationComponent},
-  {path: 'password-recovery', component: PasswordRecoveryComponent},
-  {path: 'password-recovery/:uid', component: ResetPasswordComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'activate/:uid', component: AccountActivationComponent },
+  { path: 'password-recovery', component: PasswordRecoveryComponent },
+  { path: 'password-recovery/:uid', component: ResetPasswordComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}

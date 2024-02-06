@@ -1,19 +1,19 @@
-import { FormControl } from "@angular/forms";
+import { FormControl } from '@angular/forms';
 
 export interface LoginForm {
-    login: FormControl<string>;
-    password: FormControl<string>
+  login: FormControl<string>;
+  password: FormControl<string>;
 }
 export interface RegisterForm extends LoginForm {
-    email: FormControl<string>;
-    repeatedPassword: FormControl<string>;
+  email: FormControl<string>;
+  repeatedPassword: FormControl<string>;
 }
 
 export interface PasswordRecoveryForm {
-    email: FormControl<string>;
+  email: FormControl<string>;
 }
 
 export interface ResetPasswordForm {
-    password: FormControl<string>;
-    repeatedPassword: FormControl<string>
+  password: FormControl<string>;
+  repeatedPassword: FormControl<string>;
 }
