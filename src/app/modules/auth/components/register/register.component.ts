@@ -17,7 +17,6 @@ export class RegisterComponent implements OnDestroy {
 
   notMatchingPasswordsError: null | string = null;
   errorMessage$: Observable<string | null> = this.store.select(selectAuthError);
-  loading$: Observable<boolean> = this.store.select(selectAuthLoading);
 
   get controls(): RegisterForm {
     return this.registerForm.controls;

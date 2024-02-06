@@ -5,6 +5,8 @@ import { FormService } from 'src/app/modules/core/services/form.service';
 import * as AuthActions from '../../store/auth.actions';
 import { AppState } from 'src/app/store/app.reducer';
 import { Store } from '@ngrx/store';
+import { selectAuthError } from '../../store/auth.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,8 @@ import { Store } from '@ngrx/store';
 })
 export class LoginComponent implements OnDestroy {
   loginForm: FormGroup<LoginForm> = this.formService.initLoginForm();
+  notMatchingPasswordsError: null | string = null;
+  errorMessage$: Observable<string | null> = this.store.select(selectAuthError);
   get controls(): LoginForm {
     return this.loginForm.controls;
   }

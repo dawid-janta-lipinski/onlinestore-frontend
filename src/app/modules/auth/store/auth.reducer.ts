@@ -42,6 +42,28 @@ export const _authReducer = createReducer(
       error: action.error,
     }),
   ),
+  //logout
+  on(
+    AuthActions.logout,
+    (state, action): AuthState => ({
+      ...state,
+    }),
+  ),
+  on(
+    AuthActions.logoutSuccess,
+    (state, action): AuthState => ({
+      ...state,
+    }),
+  ),
+  on(
+    AuthActions.loginSuccess,
+    (state, action): AuthState => ({
+      ...state,
+      loading: false,
+      user: null,
+      error: null,
+    }),
+  ),
   //register
   on(
     AuthActions.register,
@@ -60,6 +82,30 @@ export const _authReducer = createReducer(
   ),
   on(
     AuthActions.registerFailure,
+    (state, action): AuthState => ({
+      ...state,
+      loading: false,
+      error: action.error,
+    }),
+  ),
+  //activate account
+  on(
+    AuthActions.activate,
+    (state, action): AuthState => ({
+      ...state,
+      loading: true,
+    }),
+  ),
+  on(
+    AuthActions.activateSuccess,
+    (state, action): AuthState => ({
+      ...state,
+      loading: false,
+      error: null,
+    }),
+  ),
+  on(
+    AuthActions.activateFailure,
     (state, action): AuthState => ({
       ...state,
       loading: false,
