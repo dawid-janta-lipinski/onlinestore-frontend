@@ -6,7 +6,7 @@ import * as AuthActions from '../../store/auth.actions';
 import { AppState } from '../../../../store/app.reducer';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectAuthError, selectAuthLoading } from '../../store/auth.selectors';
+import { selectAuthError } from '../../store/auth.selectors';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

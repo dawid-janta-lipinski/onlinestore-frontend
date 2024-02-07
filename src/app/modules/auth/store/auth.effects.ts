@@ -32,6 +32,21 @@ export class AuthEffects {
     );
   });
 
+  autoLogin$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.autoLogin),
+      switchMap((action) => {
+        return this.authSerivce.autoLogin().pipe(
+          map((user) => {
+            this.router.navigate(['/']);
+            return AuthActions.autoLoginSuccess({ user: { ...user } });
+          }),
+          catchError((err) => of(AuthActions.autoLoginFailure())),
+        );
+      }),
+    );
+  });
+
   logout$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.logout),
@@ -43,7 +58,10 @@ export class AuthEffects {
             return AuthActions.logoutSuccess();
           }),
           catchError((err) => {
-            this.notifierService.notify('warning', err);
+            this.notifierService.notify(
+              'warning',
+              'You are already logged out',
+            );
             return of(AuthActions.logoutFailure());
           }),
         );
@@ -65,7 +83,11 @@ export class AuthEffects {
             return AuthActions.registerSuccess();
           }),
           catchError((err) =>
-            of(AuthActions.registerFailure({ error: 'An error occurd' })),
+            of(
+              AuthActions.registerFailure({
+                error: 'User with this email or login already exists!',
+              }),
+            ),
           ),
         );
       }),
@@ -91,6 +113,54 @@ export class AuthEffects {
             ),
           ),
         );
+      }),
+    );
+  });
+
+  passwordRecovery$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.passwordRecovery),
+      switchMap((action) => {
+        return this.authSerivce.recoverPassword({ email: action.email }).pipe(
+          map(() => {
+            this.router.navigate(['/']);
+            this.notifierService.notify(
+              'success',
+              'Check your email and set a new password!',
+            );
+            return AuthActions.passwordRecoverySuccess();
+          }),
+          catchError((err) =>
+            of(
+              AuthActions.passwordRecoveryFailure({
+                error: 'This email is incorrect!',
+              }),
+            ),
+          ),
+        );
+      }),
+    );
+  });
+  passwordChange$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.passwordChange),
+      switchMap((action) => {
+        return this.authSerivce
+          .resetPassword({ password: action.password, uid: action.uid })
+          .pipe(
+            map(() => {
+              this.router.navigate(['/login']);
+              this.notifierService.notify('success', 'Password changed!');
+              return AuthActions.passwordChangeSuccess();
+            }),
+            catchError((err) =>
+              of(
+                AuthActions.passwordChangeFailure({
+                  error: 'An error occurd',
+                }),
+              ),
+            ),
+          );
       }),
     );
   });

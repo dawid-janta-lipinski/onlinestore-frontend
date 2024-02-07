@@ -16,9 +16,10 @@ const initialState: AuthState = {
 
 export const _authReducer = createReducer(
   initialState,
-  //login
   on(
     AuthActions.login,
+    AuthActions.register,
+    AuthActions.activate,
     (state, action): AuthState => ({
       ...state,
       loading: true,
@@ -34,74 +35,22 @@ export const _authReducer = createReducer(
     }),
   ),
   on(
-    AuthActions.loginFailure,
-    (state, action): AuthState => ({
-      ...state,
-      loading: false,
-      user: null,
-      error: action.error,
-    }),
-  ),
-  //logout
-  on(
-    AuthActions.logout,
-    (state, action): AuthState => ({
-      ...state,
-    }),
-  ),
-  on(
-    AuthActions.logoutSuccess,
-    (state, action): AuthState => ({
-      ...state,
-    }),
-  ),
-  on(
-    AuthActions.loginSuccess,
-    (state, action): AuthState => ({
-      ...state,
-      loading: false,
-      user: null,
-      error: null,
-    }),
-  ),
-  //register
-  on(
-    AuthActions.register,
-    (state, action): AuthState => ({
-      ...state,
-      loading: true,
-    }),
-  ),
-  on(
     AuthActions.registerSuccess,
-    (state, action): AuthState => ({
-      ...state,
-      loading: false,
-      error: null,
-    }),
-  ),
-  on(
-    AuthActions.registerFailure,
-    (state, action): AuthState => ({
-      ...state,
-      loading: false,
-      error: action.error,
-    }),
-  ),
-  //activate account
-  on(
-    AuthActions.activate,
-    (state, action): AuthState => ({
-      ...state,
-      loading: true,
-    }),
-  ),
-  on(
     AuthActions.activateSuccess,
     (state, action): AuthState => ({
       ...state,
       loading: false,
       error: null,
+    }),
+  ),
+  on(
+    AuthActions.loginFailure,
+    AuthActions.registerFailure,
+    (state, action): AuthState => ({
+      ...state,
+      loading: false,
+      user: null,
+      error: action.error,
     }),
   ),
   on(
@@ -112,12 +61,46 @@ export const _authReducer = createReducer(
       error: action.error,
     }),
   ),
-  //clear error
   on(
+    AuthActions.autoLogin,
+    AuthActions.autoLoginFailure,
+    AuthActions.logout,
+    AuthActions.passwordRecovery,
+    AuthActions.passwordChange,
+    AuthActions.logoutFailure,
+    (state, action): AuthState => ({
+      ...state,
+    }),
+  ),
+  on(
+    AuthActions.autoLoginSuccess,
+    (state, action): AuthState => ({
+      ...state,
+      user: new User(action.user.login, action.user.email, action.user.role),
+    }),
+  ),
+  on(
+    AuthActions.logoutSuccess,
+    (state, action): AuthState => ({
+      ...state,
+      user: null,
+    }),
+  ),
+  on(
+    AuthActions.passwordRecoverySuccess,
+    AuthActions.passwordChangeSuccess,
     AuthActions.clearError,
     (state, action): AuthState => ({
       ...state,
       error: null,
+    }),
+  ),
+  on(
+    AuthActions.passwordRecoveryFailure,
+    AuthActions.passwordChangeFailure,
+    (state, action): AuthState => ({
+      ...state,
+      error: action.error,
     }),
   ),
 );
