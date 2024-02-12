@@ -1,13 +1,7 @@
-// .menu {
-//   display: flex;
-//   justify-content: flex-end;
-//   align-items: center;
-// }
-// .navigation-container {
-//   padding-left: 50px;
-//   padding-right: 50px;
-//   //width: 80%;
-// }
-// li {
-//   margin-left: 20px;
-// }
+.dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
