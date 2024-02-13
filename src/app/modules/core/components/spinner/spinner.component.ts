@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducer';
 import { selectAuthLoading } from 'src/app/modules/auth/store/auth.selectors';
-import { Observable } from 'rxjs';
+import { Observable, merge } from 'rxjs';
+import { selectProductsLoading } from 'src/app/modules/products/store/products.selectors';
 
 @Component({
   selector: 'app-spinner',
@@ -10,6 +11,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./spinner.component.scss'],
 })
 export class SpinnerComponent {
-  loading$: Observable<boolean> = this.store.select(selectAuthLoading);
+  loading$: Observable<boolean> = merge(
+    this.store.select(selectAuthLoading),
+    this.store.select(selectProductsLoading),
+  );
   constructor(private store: Store<AppState>) {}
 }

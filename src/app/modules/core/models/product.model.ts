@@ -1,11 +1,20 @@
 export interface SimpleProduct {
   name: string;
   mainDesc: string;
-  descHtml: string;
   price: number;
   imageUrl: string;
   createdAt: Date;
 }
+
+// export class SimpleProduct implements SimpleProduct {
+//   constructor(
+//     name: string,
+//     mainDesc: string,
+//     price: number,
+//     imageUrl: string,
+//     createdAt: Date,
+//   ) {}
+// }
 export interface Product {
   uuid: string;
   active: boolean;
@@ -26,4 +35,9 @@ export interface ProductForm {
   imageUuids: string[];
   parameters: string;
   category: string;
+}
+
+export interface GetProductsResponse {
+  products: SimpleProduct[];
+  totalCount: number;
 }

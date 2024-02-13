@@ -1,5 +1,14 @@
 <section>
-  <div class="products-list">
+  <mat-form-field class="">
+    <mat-label>Filter</mat-label>
+    <input
+      matInput
+      [formControl]="filterValue"
+      placeholder="write something.."
+      #input
+    />
+  </mat-form-field>
+  <div class="products-list" MatSort>
     <app-product *ngFor="let product of products" [product]="product">
     </app-product>
   </div>
@@ -7,6 +16,5 @@
     [pageSizeOptions]="[5, 10, 15]"
     [length]="products.length"
     showFirstLastButtons
-  >
-  </mat-paginator>
+  ></mat-paginator>
 </section>

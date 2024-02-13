@@ -1,8 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {
-  Product,
-  SimpleProduct,
-} from 'src/app/modules/core/models/product.model';
+import { SimpleProduct } from 'src/app/modules/core/models/product.model';
 
 @Component({
   selector: 'app-product',

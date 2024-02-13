@@ -14,18 +14,40 @@ export class ProductsEffects {
   fetchProducts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProductsActions.fetchProducts),
-      switchMap((action) => {
-        return this.productSerivce.getProducts().pipe(
-          map((products) => ProductsActions.fetchProductsSuccess({ products })),
-          catchError((err) =>
-            of(
-              ProductsActions.fetchProductsFailure({
-                error: 'an error occurd',
-              }),
-            ),
-          ),
-        );
-      }),
+      switchMap(
+        ({
+          value,
+          category,
+          priceMin,
+          priceMax,
+          pageIndex,
+          limit,
+          sortItem,
+          order,
+        }) => {
+          return this.productSerivce
+            .getProducts(
+              value,
+              category,
+              priceMin,
+              priceMax,
+              pageIndex,
+              limit,
+              sortItem,
+              order,
+            )
+            .pipe(
+              map((response) => ProductsActions.fetchProductsSuccess(response)),
+              catchError((err) =>
+                of(
+                  ProductsActions.fetchProductsFailure({
+                    error: 'an error occurd',
+                  }),
+                ),
+              ),
+            );
+        },
+      ),
     );
   });
 }

@@ -3,14 +3,16 @@ import { Product, SimpleProduct } from '../../core/models/product.model';
 import * as ProductsActions from './products.actions';
 
 export interface ProductState {
-  products: SimpleProduct[] | null;
+  totalCount: number;
+  products: SimpleProduct[];
   product: Product | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: ProductState = {
-  products: null,
+  totalCount: 0,
+  products: [],
   product: null,
   loading: false,
   error: null,
@@ -30,6 +32,7 @@ export const _productReducer = createReducer(
     (state, action): ProductState => ({
       ...state,
       loading: false,
+      totalCount: action.totalCount,
       products: action.products,
     }),
   ),

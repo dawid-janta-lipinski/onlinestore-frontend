@@ -4,6 +4,10 @@ import { createSelector } from '@ngrx/store';
 
 export const selectProducts = (state: AppState) => state.products;
 
+export const selectTotalCount = createSelector(
+  selectProducts,
+  (state: ProductState) => state.totalCount,
+);
 export const selectProductsList = createSelector(
   selectProducts,
   (state: ProductState) => state.products,
@@ -14,7 +18,7 @@ export const selectProductsProduct = createSelector(
   (state: ProductState) => state.product,
 );
 
-export const selectProductsLoadin = createSelector(
+export const selectProductsLoading = createSelector(
   selectProducts,
   (state: ProductState) => state.loading,
 );
