@@ -26,9 +26,11 @@ export class ProductsService {
     sortItem: string,
     order: string,
   ): Observable<GetProductsResponse> {
+    console.log('This is the beginning of http request');
     let params = new HttpParams()
       .append('_page', pageIndex)
       .append('_limit', limit);
+    console.log(params);
     if (value) {
       params = params.append('name_like', value);
     }
@@ -44,10 +46,11 @@ export class ProductsService {
     if (sortItem) {
       params = params.append('_sort', sortItem).append('_order', order);
     }
-
+    console.log(params);
     return this.http
       .get<SimpleProduct[]>(this.apiUrl, {
         observe: 'response',
+        params,
       })
       .pipe(
         map((response) => {
@@ -55,7 +58,7 @@ export class ProductsService {
 
           const totalCount = Number(response.headers.get('X-Total-Count'));
 
-          const productsArr: SimpleProduct[] = response.body;
+          const productsArr: SimpleProduct[] = [...response.body];
 
           return { products: productsArr, totalCount: totalCount };
         }),

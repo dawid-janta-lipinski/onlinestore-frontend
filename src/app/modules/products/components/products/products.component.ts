@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  Observable,
   Subscription,
   count,
   debounceTime,
@@ -26,6 +27,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-products',
@@ -33,14 +35,24 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements AfterViewInit, OnDestroy {
-  products: SimpleProduct[] = [];
-  totalCount = 0;
+  products$: Observable<SimpleProduct[]> =
+    this.store.select(selectProductsList);
+  totalCount$: Observable<number> = this.store.select(selectTotalCount);
 
   sub!: Subscription;
   filterValue: FormControl<string> = new FormControl('', { nonNullable: true });
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  value = '';
+  category = '';
+  priceMin = 0;
+  priceMax = 0;
+  pageIndex = 1;
+  limit = 10;
+  sortItem = 'price';
+  order = 'asc';
 
   constructor(private store: Store<AppState>) {}
 
@@ -51,67 +63,64 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
         value: '',
         category: '',
         priceMin: 0,
-        priceMax: 30,
+        priceMax: 0,
         pageIndex: 1,
-        limit: 10,
+        limit: 5,
         sortItem: 'price',
         order: 'asc',
       }),
     );
 
-    //getting total number of products for paginator
-    this.sub = this.store.select(selectTotalCount).subscribe({
-      next: (count) => (this.totalCount = count),
-    });
-
-    //getting list of products to display
-    this.sub = this.store.select(selectProductsList).subscribe({
-      next: (products) => {
-        console.log(products);
-        this.products = products ? [...products] : [];
+    this.paginator.page.subscribe({
+      next: (val: any) => {
+        console.log('changing paginator');
+        this.store.dispatch(
+          ProductsActions.fetchProducts({
+            value: '',
+            category: '',
+            priceMin: 1000,
+            priceMax: 0,
+            pageIndex: val.pageIndex,
+            limit: val.pageSize,
+            sortItem: 'price',
+            order: 'asc',
+          }),
+        );
       },
     });
 
-    if (this.sort) {
-      this.sort.sortChange.subscribe(() => {
-        console.log(this.sort);
-      });
-    } else {
-      console.log('MatSort is not available');
-    }
-
     // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    //    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
     //filtering products by input value
-    this.sub.add(
-      this.filterValue.valueChanges
-        .pipe(debounceTime(1000), distinctUntilChanged())
-        .subscribe((value) => {
-          console.log(value);
-          const val = value?.trim();
-          this.applyFilter(val);
-        }),
-    );
-  }
-  applyFilter(val: string) {
-    const pageIndex = this.paginator.pageIndex + 1;
-    const itemsPerPage = this.paginator.pageSize;
-    const sortDirection = this.sort.direction;
-    const sortProperty = this.sort.active;
+    //   this.sub.add(
+    //     this.filterValue.valueChanges
+    //       .pipe(debounceTime(1000), distinctUntilChanged())
+    //       .subscribe((value) => {
+    //         console.log(value);
+    //         const val = value?.trim();
+    //         this.applyFilter(val);
+    //       }),
+    //   );
+    // }
+    // applyFilter(val: string) {
+    //   const pageIndex = this.paginator.pageIndex + 1;
+    //   const itemsPerPage = this.paginator.pageSize;
+    //   const sortDirection = this.sort.direction;
+    //   const sortProperty = this.sort.active;
 
-    this.store.dispatch(
-      ProductsActions.fetchProducts({
-        value: val,
-        category: '',
-        priceMin: 0,
-        priceMax: 30,
-        pageIndex: pageIndex,
-        limit: itemsPerPage,
-        sortItem: sortProperty,
-        order: sortDirection,
-      }),
-    );
+    //   this.store.dispatch(
+    //     ProductsActions.fetchProducts({
+    //       value: val,
+    //       category: '',
+    //       priceMin: 0,
+    //       priceMax: 30,
+    //       pageIndex: pageIndex,
+    //       limit: itemsPerPage,
+    //       sortItem: sortProperty,
+    //       order: sortDirection,
+    //     }),
+    //   );
   }
 
   ngOnDestroy(): void {

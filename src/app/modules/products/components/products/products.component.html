@@ -9,12 +9,12 @@
     />
   </mat-form-field>
   <div class="products-list" MatSort>
-    <app-product *ngFor="let product of products" [product]="product">
+    <app-product *ngFor="let product of products$ | async" [product]="product">
     </app-product>
   </div>
   <mat-paginator
     [pageSizeOptions]="[5, 10, 15]"
-    [length]="products.length"
+    [length]="totalCount$ | async"
     showFirstLastButtons
   ></mat-paginator>
 </section>
