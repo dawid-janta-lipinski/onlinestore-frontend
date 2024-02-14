@@ -23,4 +23,5 @@ export interface SearchingForm {
   priceMin: FormControl<number>;
   priceMax: FormControl<number>;
   sortBy: FormControl<string>;
+  category: FormControl<string>;
 }

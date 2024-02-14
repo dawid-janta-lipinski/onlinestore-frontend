@@ -19,6 +19,7 @@ export class FormService {
       priceMin: new FormControl(0, { nonNullable: true }),
       priceMax: new FormControl(0, { nonNullable: true }),
       sortBy: new FormControl('', { nonNullable: true }),
+      category: new FormControl('', { nonNullable: true }),
     });
   }
   initLoginForm(): FormGroup<LoginForm> {

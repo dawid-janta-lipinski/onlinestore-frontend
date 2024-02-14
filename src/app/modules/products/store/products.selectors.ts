@@ -13,6 +13,16 @@ export const selectProductsList = createSelector(
   (state: ProductState) => state.products,
 );
 
+export const selectCategories = createSelector(
+  selectProducts,
+  (state: ProductState) => state.categories,
+);
+
+export const selectCategory = createSelector(
+  selectProducts,
+  (state: ProductState) => state.category,
+);
+
 export const selectProductsProduct = createSelector(
   selectProducts,
   (state: ProductState) => state.product,
