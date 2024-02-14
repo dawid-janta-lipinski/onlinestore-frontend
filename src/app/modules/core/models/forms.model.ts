@@ -17,3 +17,10 @@ export interface ResetPasswordForm {
   password: FormControl<string>;
   repeatedPassword: FormControl<string>;
 }
+
+export interface SearchingForm {
+  filter: FormControl<string>;
+  priceMin: FormControl<number>;
+  priceMax: FormControl<number>;
+  sortBy: FormControl<string>;
+}

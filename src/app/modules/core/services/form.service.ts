@@ -4,6 +4,7 @@ import {
   LoginForm,
   PasswordRecoveryForm,
   ResetPasswordForm,
+  SearchingForm,
 } from '../models/forms.model';
 import { RegisterForm } from '../models/forms.model';
 import { equivalentValidator } from '../../shared/validators/equivalent.validator';
@@ -12,6 +13,14 @@ import { equivalentValidator } from '../../shared/validators/equivalent.validato
   providedIn: 'root',
 })
 export class FormService {
+  initSearchingForm(): FormGroup<SearchingForm> {
+    return new FormGroup({
+      filter: new FormControl('', { nonNullable: true }),
+      priceMin: new FormControl(0, { nonNullable: true }),
+      priceMax: new FormControl(0, { nonNullable: true }),
+      sortBy: new FormControl('', { nonNullable: true }),
+    });
+  }
   initLoginForm(): FormGroup<LoginForm> {
     return new FormGroup({
       login: new FormControl('', {

@@ -25,7 +25,6 @@ export class ProductsEffects {
           sortItem,
           order,
         }) => {
-          console.log('we are in effect, before http request');
           return this.productSerivce
             .getProducts(
               value,

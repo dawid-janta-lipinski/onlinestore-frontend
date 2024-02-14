@@ -17,17 +17,16 @@ import {
   switchMap,
 } from 'rxjs';
 import { SimpleProduct } from 'src/app/modules/core/models/product.model';
-import { ProductsService } from 'src/app/modules/core/services/products.service';
 import { AppState } from 'src/app/store/app.reducer';
 import * as ProductsActions from '../../store/products.actions';
 import {
   selectProductsList,
   selectTotalCount,
 } from '../../store/products.selectors';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { ThisReceiver } from '@angular/compiler';
+import { FormService } from 'src/app/modules/core/services/form.service';
+import { SearchingForm } from 'src/app/modules/core/models/forms.model';
 
 @Component({
   selector: 'app-products',
@@ -40,21 +39,20 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
   totalCount$: Observable<number> = this.store.select(selectTotalCount);
 
   sub!: Subscription;
-  filterValue: FormControl<string> = new FormControl('', { nonNullable: true });
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
 
-  value = '';
-  category = '';
-  priceMin = 0;
-  priceMax = 0;
-  pageIndex = 1;
-  limit = 10;
-  sortItem = 'price';
-  order = 'asc';
+  searchingForm: FormGroup<SearchingForm> =
+    this.formService.initSearchingForm();
 
-  constructor(private store: Store<AppState>) {}
+  get controls(): SearchingForm {
+    return this.searchingForm.controls;
+  }
+
+  constructor(
+    private store: Store<AppState>,
+    private formService: FormService,
+  ) {}
 
   ngAfterViewInit(): void {
     //fetching products
@@ -67,60 +65,55 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
         pageIndex: 1,
         limit: 5,
         sortItem: 'price',
-        order: 'asc',
+        order: 'desc',
       }),
     );
 
-    this.paginator.page.subscribe({
-      next: (val: any) => {
-        console.log('changing paginator');
+    this.sub = merge(
+      this.searchingForm.valueChanges.pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+      ),
+      this.paginator.page,
+    ).subscribe({
+      next: (value) => {
+        const { sortOrder, sortParam } = this.getSortingParams(
+          value.toString(),
+        );
         this.store.dispatch(
           ProductsActions.fetchProducts({
-            value: '',
+            value: this.controls.filter.getRawValue(),
             category: '',
-            priceMin: 1000,
-            priceMax: 0,
-            pageIndex: val.pageIndex,
-            limit: val.pageSize,
-            sortItem: 'price',
-            order: 'asc',
+            priceMin: this.controls.priceMin.getRawValue(),
+            priceMax: this.controls.priceMax.getRawValue(),
+            pageIndex: this.paginator.pageIndex + 1,
+            limit: this.paginator.pageSize,
+            sortItem: sortParam,
+            order: sortOrder,
           }),
         );
       },
     });
 
-    // If the user changes the sort order, reset back to the first page.
-    //    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.sub.add(
+      this.searchingForm.valueChanges.subscribe({
+        next: (value) => (this.paginator.pageIndex = 0),
+      }),
+    );
+  }
 
-    //filtering products by input value
-    //   this.sub.add(
-    //     this.filterValue.valueChanges
-    //       .pipe(debounceTime(1000), distinctUntilChanged())
-    //       .subscribe((value) => {
-    //         console.log(value);
-    //         const val = value?.trim();
-    //         this.applyFilter(val);
-    //       }),
-    //   );
-    // }
-    // applyFilter(val: string) {
-    //   const pageIndex = this.paginator.pageIndex + 1;
-    //   const itemsPerPage = this.paginator.pageSize;
-    //   const sortDirection = this.sort.direction;
-    //   const sortProperty = this.sort.active;
-
-    //   this.store.dispatch(
-    //     ProductsActions.fetchProducts({
-    //       value: val,
-    //       category: '',
-    //       priceMin: 0,
-    //       priceMax: 30,
-    //       pageIndex: pageIndex,
-    //       limit: itemsPerPage,
-    //       sortItem: sortProperty,
-    //       order: sortDirection,
-    //     }),
-    //   );
+  getSortingParams(value: string) {
+    if (value === 'NameAsc') return { sortParam: 'name', sortOrder: 'asc' };
+    if (value === 'NameDesc') return { sortParam: 'name', sortOrder: 'desc' };
+    if (value === 'CategoryAsc')
+      return { sortParam: 'category', sortOrder: 'asc' };
+    if (value === 'CategoryDesc')
+      return { sortParam: 'category', sortOrder: 'desc' };
+    if (value === 'DateAsc') return { sortParam: 'date', sortOrder: 'asc' };
+    if (value === 'DateDesc') return { sortParam: 'date', sortOrder: 'desc' };
+    if (value === 'PriceAsc') return { sortParam: 'price', sortOrder: 'asc' };
+    if (value === 'PriceDesc') return { sortParam: 'price', sortOrder: 'desc' };
+    return { sortParam: 'price', sortOrder: 'desc' };
   }
 
   ngOnDestroy(): void {
