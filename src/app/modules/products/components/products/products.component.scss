@@ -11,11 +11,21 @@ mat-form-field {
   margin-left: 5px;
   width: 25%;
 }
+.filtering-container {
+  display: grid;
+  padding: 0px;
+  grid-template-columns: 80% 20%;
+}
 
 .filter {
   width: 100%;
 }
 
+.button {
+  height: 56px;
+  margin: 0px;
+  border-radius: 0px;
+}
 .params {
   display: flex;
   justify-content: space-between;

@@ -15,7 +15,7 @@ import { equivalentValidator } from '../../shared/validators/equivalent.validato
 export class FormService {
   initSearchingForm(): FormGroup<SearchingForm> {
     return new FormGroup({
-      filter: new FormControl('', { nonNullable: true }),
+      filter: new FormControl('', { nonNullable: true, updateOn: 'submit' }),
       priceMin: new FormControl(0, { nonNullable: true }),
       priceMax: new FormControl(0, { nonNullable: true }),
       sortBy: new FormControl('', { nonNullable: true }),

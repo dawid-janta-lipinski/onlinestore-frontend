@@ -28,6 +28,30 @@ const initialState: ProductState = {
 export const _productReducer = createReducer(
   initialState,
   on(
+    ProductsActions.fetchSingleProduct,
+    (state, action): ProductState => ({
+      ...state,
+      loading: true,
+    }),
+  ),
+  on(
+    ProductsActions.fetchSingleProductSuccess,
+    (state, action): ProductState => ({
+      ...state,
+      loading: false,
+      product: action.product,
+    }),
+  ),
+  on(
+    ProductsActions.fetchSingleProductFailure,
+    (state, action): ProductState => ({
+      ...state,
+      loading: false,
+      error: action.error,
+    }),
+  ),
+
+  on(
     ProductsActions.fetchProducts,
     (state, action): ProductState => ({
       ...state,

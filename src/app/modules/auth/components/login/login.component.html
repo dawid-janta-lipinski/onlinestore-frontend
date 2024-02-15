@@ -17,13 +17,7 @@
       }}</mat-error>
     </mat-form-field>
   </div>
-  <div
-    class="alert alert-warning alert-dismissible fade show mt-2"
-    role="alert"
-    *ngIf="errorMessage$ | async as error"
-  >
-    {{ error }}
-  </div>
+  <app-alert></app-alert>
   <div class="d-flex justify-content-end">
     <button
       class="button"

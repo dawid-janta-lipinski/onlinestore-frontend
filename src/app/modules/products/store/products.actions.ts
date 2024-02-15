@@ -1,10 +1,16 @@
 import { createAction, props } from '@ngrx/store';
-import { SimpleProduct } from '../../core/models/product.model';
+import { Product, SimpleProduct } from '../../core/models/product.model';
 import { Category } from '../../core/models/categories.model';
 
 const FETCH_PRODUCTS_TYPE = '[Products] Fetch Products';
 const FETCH_PRODUCTS_SUCCESS_TYPE = '[Products] Fetch Products Success';
 const FETCH_PRODUCTS_FAILURE_TYPE = '[Products] Fetch Products Failure';
+
+const FETCH_SINGLE_PRODUCT_TYPE = '[Products] Fetch Single Product';
+const FETCH_SINGLE_PRODUCT_SUCCESS_TYPE =
+  '[Products] Fetch Single Product Success';
+const FETCH_SINGLE_PRODUCT_FAILURE_TYPE =
+  '[Products] Fetch Single Product Failure';
 
 const FETCH_CATEGORIES_TYPE = '[Products] Fetch Categories';
 const FETCH_CATEGORIES_SUCCESS_TYPE = '[Products] Fetch Categories Success';
@@ -16,6 +22,23 @@ const CLEAR_CATEGORY_TYPE = '[Products] Clear Category';
 const CLEAR_ERROR = '[Products] Clear Error';
 
 export const clearError = createAction(CLEAR_ERROR);
+
+export const fetchSingleProduct = createAction(
+  FETCH_SINGLE_PRODUCT_TYPE,
+  props<{
+    uuid: string;
+  }>(),
+);
+
+export const fetchSingleProductSuccess = createAction(
+  FETCH_SINGLE_PRODUCT_SUCCESS_TYPE,
+  props<{ product: Product }>(),
+);
+
+export const fetchSingleProductFailure = createAction(
+  FETCH_SINGLE_PRODUCT_FAILURE_TYPE,
+  props<{ error: string }>(),
+);
 
 export const fetchProducts = createAction(
   FETCH_PRODUCTS_TYPE,

@@ -1,28 +1,23 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   Observable,
   Subscription,
-  count,
   debounceTime,
   distinctUntilChanged,
   merge,
-  startWith,
-  switchMap,
 } from 'rxjs';
-import { SimpleProduct } from 'src/app/modules/core/models/product.model';
+import {
+  Product,
+  SimpleProduct,
+} from 'src/app/modules/core/models/product.model';
 import { AppState } from 'src/app/store/app.reducer';
 import * as ProductsActions from '../../store/products.actions';
 import {
   selectCategories,
   selectCategory,
   selectProductsList,
+  selectProductsProduct,
   selectTotalCount,
 } from '../../store/products.selectors';
 import { FormGroup } from '@angular/forms';
@@ -39,8 +34,15 @@ import { Category } from 'src/app/modules/core/models/categories.model';
 export class ProductsComponent implements AfterViewInit, OnDestroy {
   products$: Observable<SimpleProduct[]> =
     this.store.select(selectProductsList);
+
+  product$: Observable<Product | null> = this.store.select(
+    selectProductsProduct,
+  );
+
   totalCount$: Observable<number> = this.store.select(selectTotalCount);
+
   category$: Observable<Category | null> = this.store.select(selectCategory);
+
   categories$: Observable<Category[]> = this.store.select(selectCategories);
 
   sub!: Subscription;
@@ -113,6 +115,12 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
         next: (value) => (this.paginator.pageIndex = 0),
       }),
     );
+
+    this.sub.add(
+      this.product$.subscribe({
+        next: (product) => console.log(product),
+      }),
+    );
   }
 
   getSortingParams(value: string) {
@@ -127,6 +135,11 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
     if (value === 'PriceAsc') return { sortParam: 'price', sortOrder: 'asc' };
     if (value === 'PriceDesc') return { sortParam: 'price', sortOrder: 'desc' };
     return { sortParam: 'price', sortOrder: 'desc' };
+  }
+
+  selectProduct(uuid: string) {
+    console.log(uuid);
+    this.store.dispatch(ProductsActions.fetchSingleProduct({ uuid: uuid }));
   }
 
   ngOnDestroy(): void {

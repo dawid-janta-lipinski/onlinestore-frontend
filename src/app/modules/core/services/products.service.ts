@@ -16,6 +16,13 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
+  getSingleProduct(uuid: string): Observable<Product> {
+    const params = new HttpParams().append('_uuid', uuid);
+    return this.http.get<Product>(this.apiUrl, {
+      params,
+    });
+  }
+
   getProducts(
     value: string,
     category: string,

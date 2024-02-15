@@ -1,9 +1,10 @@
 export interface SimpleProduct {
+  uuid: string;
   name: string;
   mainDesc: string;
   price: number;
   imageUrl: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 // export class SimpleProduct implements SimpleProduct {
@@ -24,7 +25,7 @@ export interface Product {
   price: number;
   imageUrls: string[];
   parameters: string;
-  createAt: Date;
+  createAt: string;
   category: string;
 }
 export interface ProductForm {

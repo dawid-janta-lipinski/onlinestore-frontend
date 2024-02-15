@@ -13,6 +13,28 @@ export class ProductsEffects {
     private categoryService: CategoriesService,
   ) {}
 
+  fetchSingleProduct$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductsActions.fetchSingleProduct),
+      switchMap(({ uuid }) => {
+        return this.productSerivce.getSingleProduct(uuid).pipe(
+          map((product) =>
+            ProductsActions.fetchSingleProductSuccess({
+              product: product,
+            }),
+          ),
+          catchError((err) =>
+            of(
+              ProductsActions.fetchSingleProductFailure({
+                error: 'an error occurd',
+              }),
+            ),
+          ),
+        );
+      }),
+    );
+  });
+
   fetchProducts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProductsActions.fetchProducts),
@@ -43,7 +65,7 @@ export class ProductsEffects {
               catchError((err) =>
                 of(
                   ProductsActions.fetchProductsFailure({
-                    error: 'an error occurd',
+                    error: 'An error occurd',
                   }),
                 ),
               ),
