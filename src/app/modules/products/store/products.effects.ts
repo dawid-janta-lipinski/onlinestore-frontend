@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ProductsActions from './products.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { CategoriesService } from '../../core/services/categories.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ProductsEffects {
@@ -11,6 +12,7 @@ export class ProductsEffects {
     private actions$: Actions,
     private productSerivce: ProductsService,
     private categoryService: CategoriesService,
+    private router: Router,
   ) {}
 
   fetchSingleProduct$ = createEffect(() => {
@@ -18,11 +20,13 @@ export class ProductsEffects {
       ofType(ProductsActions.fetchSingleProduct),
       switchMap(({ uuid }) => {
         return this.productSerivce.getSingleProduct(uuid).pipe(
-          map((product) =>
-            ProductsActions.fetchSingleProductSuccess({
+          map((product) => {
+            const encodedName = encodeURIComponent(product.name);
+            this.router.navigate([`products/${encodedName}`]);
+            return ProductsActions.fetchSingleProductSuccess({
               product: product,
-            }),
-          ),
+            });
+          }),
           catchError((err) =>
             of(
               ProductsActions.fetchSingleProductFailure({

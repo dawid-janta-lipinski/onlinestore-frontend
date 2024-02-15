@@ -32,6 +32,7 @@ export const _productReducer = createReducer(
     (state, action): ProductState => ({
       ...state,
       loading: true,
+      error: null,
     }),
   ),
   on(
@@ -56,6 +57,7 @@ export const _productReducer = createReducer(
     (state, action): ProductState => ({
       ...state,
       loading: true,
+      error: null,
     }),
   ),
   on(
@@ -81,6 +83,7 @@ export const _productReducer = createReducer(
     (state, action): ProductState => ({
       ...state,
       loading: true,
+      error: null,
     }),
   ),
   on(

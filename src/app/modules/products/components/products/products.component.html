@@ -55,7 +55,7 @@
     <app-product
       *ngFor="let product of products$ | async"
       [product]="product"
-      (click)="selectProduct(product.uuid)"
+      (click)="selectProduct(product)"
     >
     </app-product>
   </div>

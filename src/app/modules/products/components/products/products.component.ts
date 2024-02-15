@@ -25,6 +25,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { FormService } from 'src/app/modules/core/services/form.service';
 import { SearchingForm } from 'src/app/modules/core/models/forms.model';
 import { Category } from 'src/app/modules/core/models/categories.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -34,10 +35,6 @@ import { Category } from 'src/app/modules/core/models/categories.model';
 export class ProductsComponent implements AfterViewInit, OnDestroy {
   products$: Observable<SimpleProduct[]> =
     this.store.select(selectProductsList);
-
-  product$: Observable<Product | null> = this.store.select(
-    selectProductsProduct,
-  );
 
   totalCount$: Observable<number> = this.store.select(selectTotalCount);
 
@@ -59,6 +56,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private formService: FormService,
+    private router: Router,
   ) {}
 
   ngAfterViewInit(): void {
@@ -115,12 +113,6 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
         next: (value) => (this.paginator.pageIndex = 0),
       }),
     );
-
-    this.sub.add(
-      this.product$.subscribe({
-        next: (product) => console.log(product),
-      }),
-    );
   }
 
   getSortingParams(value: string) {
@@ -137,9 +129,10 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
     return { sortParam: 'price', sortOrder: 'desc' };
   }
 
-  selectProduct(uuid: string) {
-    console.log(uuid);
-    this.store.dispatch(ProductsActions.fetchSingleProduct({ uuid: uuid }));
+  selectProduct(product: SimpleProduct) {
+    this.store.dispatch(
+      ProductsActions.fetchSingleProduct({ uuid: product.uuid }),
+    );
   }
 
   ngOnDestroy(): void {
