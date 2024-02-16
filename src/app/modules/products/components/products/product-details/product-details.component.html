@@ -1,8 +1,39 @@
-<div class="card" *ngIf="product$ | async as product">
-  <!-- <img [src]="product.imageUrl" class="card-img-top" /> -->
-  <div class="card-body">
-    <h5 class="card-title">{{ product.name }}</h5>
-    <p>{{ product.price | currency: "zł" }}</p>
-    <p class="card-text">{{ product.mainDesc }}</p>
+<ng-container *ngIf="product$ | async as product">
+  <div class="row">
+    <div class="col-md-6 col-12">
+      <app-images-carousel
+        [productName]="product.name"
+        [imageUrls]="product.imageUrls"
+      ></app-images-carousel>
+    </div>
+    <div
+      class="col-md-6 col-12 d-flex flex-column align-items-start justify-content-between"
+    >
+      <h1 class="title">{{ product.name }}</h1>
+      <p class="price">{{ product.price | currency: "zł" }}</p>
+      <button mat-raised-button color="primary" mat-button>Add to Cart</button>
+      <p class="text">{{ product.mainDesc }}</p>
+    </div>
   </div>
-</div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="desc-title">Product description</p>
+      <div [innerHTML]="product.descHtml"></div>
+    </div>
+  </div>
+  <div class="row" *ngIf="product.parameters as parameters">
+    <div class="col-md-12 mt-3">
+      <p class="params-title">Product Parameters</p>
+      <table class="table table-bordered">
+        <tbody>
+          <tr *ngFor="let parameter of parameters | keyvalue">
+            <td class="text-end table-cell">
+              <span class="product-parameter-key">{{ parameter.key }}</span>
+            </td>
+            <td class="text-start table-cell">{{ parameter.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>

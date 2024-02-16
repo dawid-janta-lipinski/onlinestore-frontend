@@ -8,6 +8,8 @@ import { User } from '../../models/auth.model';
 import { selectAuthUser } from 'src/app/modules/auth/store/auth.selectors';
 import { Category } from '../../models/categories.model';
 import { selectCategories } from 'src/app/modules/products/store/products.selectors';
+import { selectProductsProduct } from 'src/app/modules/products/store/products.selectors';
+import { Product } from '../../models/product.model';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,6 +17,9 @@ import { selectCategories } from 'src/app/modules/products/store/products.select
 })
 export class HeaderComponent implements OnInit {
   user$: Observable<User | null> = this.store.select(selectAuthUser);
+  // product$: Observable<Product | null> = this.store.select(
+  //   selectProductsProduct,
+  // );
   categories$: Observable<Category[] | null> =
     this.store.select(selectCategories);
 
@@ -22,6 +27,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(ProductsActions.fetchCategories());
+    // this.product$.subscribe({
+    //   next: (product) => console.log(product),
+    // });
   }
 
   setCategory(category: Category) {
