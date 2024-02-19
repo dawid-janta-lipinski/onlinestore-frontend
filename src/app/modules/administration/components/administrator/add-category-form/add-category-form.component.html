@@ -1,1 +1,31 @@
-<p>add-category-form works!</p>
+<div class="main-container">
+  <mat-card>
+    <mat-card-header class="header">
+      <mat-card-title class="title">Add Categry form</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="postCategoryForm" (ngSubmit)="onAddCategory()">
+      <div class="add-category-container">
+        <mat-form-field class="category-input">
+          <mat-label>Category name</mat-label>
+          <input
+            matInput
+            [formControl]="controls.category"
+            placeholder="write something.."
+          />
+          <mat-error *ngIf="controls.category.invalid">{{
+            getErrorMessage(controls.category)
+          }}</mat-error>
+        </mat-form-field>
+        <button
+          class="button"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="postCategoryForm.invalid"
+        >
+          Add category
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

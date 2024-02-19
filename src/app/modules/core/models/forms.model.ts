@@ -1,5 +1,8 @@
 import { FormControl } from '@angular/forms';
 
+export interface PostCategoryForm {
+  category: FormControl<string>;
+}
 export interface LoginForm {
   login: FormControl<string>;
   password: FormControl<string>;

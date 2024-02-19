@@ -5,6 +5,7 @@ import * as ProductsActions from './products.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { CategoriesService } from '../../core/services/categories.service';
 import { Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Injectable()
 export class ProductsEffects {
@@ -13,6 +14,7 @@ export class ProductsEffects {
     private productSerivce: ProductsService,
     private categoryService: CategoriesService,
     private router: Router,
+    private notifierService: NotifierService,
   ) {}
 
   fetchSingleProduct$ = createEffect(() => {
@@ -36,6 +38,30 @@ export class ProductsEffects {
           ),
         );
       }),
+    );
+  });
+
+  postCategory$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductsActions.postCategory),
+      switchMap((category) =>
+        this.categoryService.postCategory(category).pipe(
+          map(() => {
+            this.notifierService.notify(
+              'success',
+              'Successfully added new category!',
+            );
+            return ProductsActions.postCategorySuccess();
+          }),
+          catchError((err) =>
+            of(
+              ProductsActions.postCategoryFailure({
+                error: err.message || 'An error occurred',
+              }),
+            ),
+          ),
+        ),
+      ),
     );
   });
 

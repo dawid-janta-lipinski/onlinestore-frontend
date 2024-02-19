@@ -53,6 +53,30 @@ export const _productReducer = createReducer(
   ),
 
   on(
+    ProductsActions.postCategory,
+    (state, action): ProductState => ({
+      ...state,
+      loading: true,
+      error: null,
+    }),
+  ),
+  on(
+    ProductsActions.postCategorySuccess,
+    (state, action): ProductState => ({
+      ...state,
+      loading: false,
+    }),
+  ),
+  on(
+    ProductsActions.fetchSingleProductFailure,
+    (state, action): ProductState => ({
+      ...state,
+      loading: false,
+      error: action.error,
+    }),
+  ),
+
+  on(
     ProductsActions.fetchProducts,
     (state, action): ProductState => ({
       ...state,

@@ -16,12 +16,32 @@ const FETCH_CATEGORIES_TYPE = '[Products] Fetch Categories';
 const FETCH_CATEGORIES_SUCCESS_TYPE = '[Products] Fetch Categories Success';
 const FETCH_CATEGORIES_FAILURE_TYPE = '[Products] Fetch Categories Failure';
 
+const POST_CATEGORY_TYPE = '[Products] Post Category';
+const POST_CATEGORY_SUCCESS_TYPE = '[Products] Post Category Success';
+const POST_CATEGORY_FAILURE_TYPE = '[Products] Post Category Failure';
+
 const SET_CATEGORY_TYPE = '[Products] Set Category';
 const CLEAR_CATEGORY_TYPE = '[Products] Clear Category';
 
 const CLEAR_ERROR = '[Products] Clear Error';
 
 export const clearError = createAction(CLEAR_ERROR);
+
+export const postCategory = createAction(
+  POST_CATEGORY_TYPE,
+  props<{
+    name: string;
+  }>(),
+);
+
+export const postCategorySuccess = createAction(POST_CATEGORY_SUCCESS_TYPE);
+
+export const postCategoryFailure = createAction(
+  POST_CATEGORY_FAILURE_TYPE,
+  props<{ error: string }>(),
+);
+
+//////
 
 export const fetchSingleProduct = createAction(
   FETCH_SINGLE_PRODUCT_TYPE,

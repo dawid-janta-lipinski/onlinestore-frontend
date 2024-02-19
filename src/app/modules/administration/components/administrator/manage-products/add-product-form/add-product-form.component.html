@@ -1,0 +1,30 @@
+<div class="main-container">
+  <mat-card>
+    <mat-card-header class="header">
+      <mat-card-title class="title">Add Product Form</mat-card-title>
+    </mat-card-header>
+    <div class="add-file-container">
+      <mat-form-field class="file-input" (click)="fileInput.click()">
+        <input
+          type="text"
+          [value]="fileName"
+          matInput
+          placeholder="Add .png image"
+          readonly
+          accept="image/png"
+        />
+        <mat-icon matSuffix>attach_file</mat-icon>
+      </mat-form-field>
+      <input type="file" #fileInput (change)="onFileSelected($event)" />
+      <button
+        class="button"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        (click)="uploadFile()"
+      >
+        Add image
+      </button>
+    </div>
+  </mat-card>
+</div>

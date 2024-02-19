@@ -1,1 +1,22 @@
-<p>manage-products works!</p>
+<div class="container">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Add product </mat-panel-title>
+        <mat-panel-description>
+          Use this form to add new product.
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-add-product-form></app-add-product-form>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Delete product </mat-panel-title>
+        <mat-panel-description>
+          Use this form to delete a product.
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-delete-product-form></app-delete-product-form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

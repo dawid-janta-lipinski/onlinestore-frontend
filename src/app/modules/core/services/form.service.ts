@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   LoginForm,
   PasswordRecoveryForm,
+  PostCategoryForm,
   ResetPasswordForm,
   SearchingForm,
 } from '../models/forms.model';
@@ -13,6 +14,14 @@ import { equivalentValidator } from '../../shared/validators/equivalent.validato
   providedIn: 'root',
 })
 export class FormService {
+  initAddCategoryForm(): FormGroup<PostCategoryForm> {
+    return new FormGroup({
+      category: new FormControl('', {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+    });
+  }
   initSearchingForm(): FormGroup<SearchingForm> {
     return new FormGroup({
       filter: new FormControl('', { nonNullable: true, updateOn: 'submit' }),
