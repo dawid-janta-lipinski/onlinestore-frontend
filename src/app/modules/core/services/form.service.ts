@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  AddProductForm,
   LoginForm,
   PasswordRecoveryForm,
   PostCategoryForm,
@@ -20,6 +21,42 @@ export class FormService {
         validators: [Validators.required],
         nonNullable: true,
       }),
+    });
+  }
+  initAddProductForm(): FormGroup<AddProductForm> {
+    return new FormGroup({
+      name: new FormControl('', {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      mainDesc: new FormControl('', {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      descHtml: new FormControl('', {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      price: new FormControl('', {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      category: new FormControl('', {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      parameters: new FormArray([
+        new FormGroup({
+          key: new FormControl('', {
+            validators: [Validators.required],
+            nonNullable: true,
+          }),
+          value: new FormControl('', {
+            validators: [Validators.required],
+            nonNullable: true,
+          }),
+        }),
+      ]),
     });
   }
   initSearchingForm(): FormGroup<SearchingForm> {

@@ -18,7 +18,8 @@ input[type="file"] {
   text-align: center;
 }
 
-.add-file-container {
+.add-file-container,
+.add-product-container {
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -26,7 +27,7 @@ input[type="file"] {
   align-items: flex-end;
 }
 
-.file-input {
+.input {
   width: 100%;
 }
 

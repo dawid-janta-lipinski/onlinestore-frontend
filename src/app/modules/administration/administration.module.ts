@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CoreModule } from '../core/core.module';
 import { AddProductFormComponent } from './components/administrator/manage-products/add-product-form/add-product-form.component';
 import { DeleteProductFormComponent } from './components/administrator/manage-products/delete-product-form/delete-product-form.component';
+import { UploadedImagesComponent } from './components/administrator/manage-products/add-product-form/uploaded-images/uploaded-images.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { DeleteProductFormComponent } from './components/administrator/manage-pr
     ManageProductsComponent,
     AddProductFormComponent,
     DeleteProductFormComponent,
+    UploadedImagesComponent,
   ],
   imports: [SharedModule, CoreModule, AdministrationRoutingModule],
 })
