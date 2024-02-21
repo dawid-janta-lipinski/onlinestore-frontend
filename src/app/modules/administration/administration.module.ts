@@ -10,6 +10,7 @@ import { CoreModule } from '../core/core.module';
 import { AddProductFormComponent } from './components/administrator/manage-products/add-product-form/add-product-form.component';
 import { DeleteProductFormComponent } from './components/administrator/manage-products/delete-product-form/delete-product-form.component';
 import { UploadedImagesComponent } from './components/administrator/manage-products/add-product-form/uploaded-images/uploaded-images.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,11 @@ import { UploadedImagesComponent } from './components/administrator/manage-produ
     DeleteProductFormComponent,
     UploadedImagesComponent,
   ],
-  imports: [SharedModule, CoreModule, AdministrationRoutingModule],
+  imports: [
+    SharedModule,
+    CoreModule,
+    AdministrationRoutingModule,
+    AngularEditorModule,
+  ],
 })
 export class AdministrationModule {}

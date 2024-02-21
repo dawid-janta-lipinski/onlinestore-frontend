@@ -34,6 +34,19 @@ input[type="file"] {
 mat-card {
   margin-top: 50px;
   margin-bottom: 50px;
-  max-width: 600px;
+  //max-width: 600px;
   width: 100%;
+}
+
+.parameters {
+  width: 100%;
+}
+
+.form-control-wrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.array-input {
+  width: 50%;
 }

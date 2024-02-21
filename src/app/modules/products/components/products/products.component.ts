@@ -81,7 +81,6 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
       this.paginator.page,
     ).subscribe({
       next: (value) => {
-        console.log(value);
         const { sortOrder, sortParam } = this.getSortingParams(value as string);
         this.store.dispatch(
           ProductsActions.fetchProducts({

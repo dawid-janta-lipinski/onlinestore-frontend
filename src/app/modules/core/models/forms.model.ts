@@ -7,7 +7,7 @@ export interface AddProductForm {
   name: FormControl<string>;
   mainDesc: FormControl<string>;
   descHtml: FormControl<string>;
-  price: FormControl<string>;
+  price: FormControl<number>;
   category: FormControl<string>;
   parameters: FormArray<
     FormGroup<{ value: FormControl<string>; key: FormControl<string> }>

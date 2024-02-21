@@ -7,15 +7,6 @@ export interface SimpleProduct {
   createdAt: string;
 }
 
-// export class SimpleProduct implements SimpleProduct {
-//   constructor(
-//     name: string,
-//     mainDesc: string,
-//     price: number,
-//     imageUrl: string,
-//     createdAt: Date,
-//   ) {}
-// }
 export interface Product {
   uuid: string;
   active: boolean;
@@ -41,4 +32,9 @@ export interface ProductForm {
 export interface GetProductsResponse {
   products: SimpleProduct[];
   totalCount: number;
+}
+
+export interface ProductResponse {
+  timestamp: string;
+  message: string;
 }

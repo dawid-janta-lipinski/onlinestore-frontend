@@ -21,12 +21,12 @@
       <div [innerHTML]="product.descHtml"></div>
     </div>
   </div>
-  <div class="row" *ngIf="product.parameters as parameters">
+  <div class="row" *ngIf="product.parameters">
     <div class="col-md-12 mt-3">
       <p class="params-title">Product Parameters</p>
       <table class="table table-bordered">
         <tbody>
-          <tr *ngFor="let parameter of parameters | keyvalue">
+          <tr *ngFor="let parameter of parsedParameters | keyvalue">
             <td class="text-end table-cell">
               <span class="product-parameter-key">{{ parameter.key }}</span>
             </td>

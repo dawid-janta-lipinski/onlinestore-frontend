@@ -37,7 +37,7 @@ export class FormService {
         validators: [Validators.required],
         nonNullable: true,
       }),
-      price: new FormControl('', {
+      price: new FormControl(0, {
         validators: [Validators.required],
         nonNullable: true,
       }),

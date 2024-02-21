@@ -1,1 +1,23 @@
-<p>delete-product-form works!</p>
+<mat-form-field class="mt-2 w-100">
+  <mat-label>Filter</mat-label>
+  <input matInput [formControl]="search" placeholder="write something.." />
+</mat-form-field>
+
+<div class="products-list mt-2">
+  <ul>
+    <ng-container *ngFor="let product of products$ | async">
+      <li class="d-flex w-100">
+        <div class="d-flex justify-content-between w-100">
+          <p class="font-weight-bold">{{ product.name }}</p>
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="deleteProduct(product.uuid)"
+          >
+            DELETE
+          </button>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+</div>

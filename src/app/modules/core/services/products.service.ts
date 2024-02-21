@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import {
   GetProductsResponse,
   Product,
+  ProductForm,
+  ProductResponse,
   SimpleProduct,
 } from '../models/product.model';
 
@@ -67,5 +69,17 @@ export class ProductsService {
           return { products: productsArr, totalCount: totalCount };
         }),
       );
+  }
+  addProduct(productForm: ProductForm): Observable<ProductResponse> {
+    return this.http.post<ProductResponse>(`${this.apiUrl}`, productForm, {
+      withCredentials: true,
+    });
+  }
+  deleteProduct(uuid: string): Observable<ProductResponse> {
+    const params = new HttpParams().append('uuid', uuid);
+    return this.http.delete<ProductResponse>(`${this.apiUrl}`, {
+      withCredentials: true,
+      params,
+    });
   }
 }

@@ -21,11 +21,7 @@
       [ngClass]="{ active: first }"
       *ngFor="let image of imageUrls; let first = first"
     >
-      <img
-        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-        class="d-block w-100"
-        [alt]="productName"
-      />
+      <img [src]="image" class="d-block w-100" [alt]="productName" />
     </div>
   </div>
   <button
